@@ -9,10 +9,10 @@ library(xts)
 
 # Download daily stock prices
 if (!file.exists("sp500_download.csv")) {
-  
+
   # Download constituents
   constituents <- download_data("constituents", index = "S&P 500")
-  
+
   sp500_download <-
     download_data(
       "stock_prices",
@@ -21,8 +21,7 @@ if (!file.exists("sp500_download.csv")) {
       end_date = "2024-11-18"
     )
   sp500_download %>% write_csv("sp500_download.csv")
-  sp500_download %>%
-    write_csv("sp500_download.csv")
+} else {
   sp500_download <- read_csv("sp500_download.csv")
 }
 
@@ -66,8 +65,8 @@ init_portf <-
   portfolio.spec(assets = funds) %>%
   add.constraint(type = "weight_sum", min_sum = 0.99, max_sum = 1.01) %>%
   add.constraint(type = "box", min = 0, max = 1) %>%
-  add.objective(type = "risk", name = "StdDev") %>% 
-  print()
+  add.objective(type = "risk", name = "StdDev")
+print(init_portf)
 
 # Optimize the portfolio
 min_sd <-

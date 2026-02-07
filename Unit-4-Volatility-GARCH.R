@@ -94,8 +94,7 @@ plots <-
     data = map(data, ~ as_tsibble(., index = time)),
     plot = map(data, ~ gg_tsdisplay(., sigma, plot_type = "partial"))
   ) %>%
-  ungroup() %>%
-  glimpse()
+  ungroup()
 
 models <- plots %>% pull(model)
 for (m in models) {
@@ -105,7 +104,7 @@ for (m in models) {
     pull(plot) %>%
     print()
 
-  readline("Press enter to continue")
+  Sys.sleep(0.1)
 }
 
 
@@ -174,7 +173,7 @@ sp500_stats
 # Add return distribution analysis
 sp500_returns %>%
   ggplot(aes(x = return)) +
-  geom_histogram(aes(y = ..density..), bins = 50) +
+  geom_histogram(aes(y = after_stat(density)), bins = 50) +
   geom_density(color = "red") +
   stat_function(
     fun = dnorm,
